@@ -8,8 +8,8 @@ main = async () => {
     files = res.payload
     console.log(files.length)
     laps = []
-    parallel = 1
-    round = 1
+    parallel = 2
+    round = 3
     while (files.length > 0) laps.push(files.splice(0, parallel)) // จำนวนที่ทำพร้อมกัน
     laps = laps.splice(0,round) // ทำทั้งหมดแค่ deleteCount - start รอบ
 
@@ -25,6 +25,7 @@ main = async () => {
                 }).catch((e) => {error: e.message})
         })))
         result = result.concat(lapresult);
+        console.log(lapresult);
     }
     summarize = {
         sum: 0,
