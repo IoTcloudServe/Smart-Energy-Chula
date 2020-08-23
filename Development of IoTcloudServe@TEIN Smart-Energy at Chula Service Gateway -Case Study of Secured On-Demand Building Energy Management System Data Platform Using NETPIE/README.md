@@ -7,4 +7,4 @@ Ririnda Thirasupa, Meechai Homchan, Siravit Kwankajornkeat and Chaodit Aswakul, 
 
 <p> The codes used in the research are in <a href="\Used_codes">Used_codes</a> folder. </p>
 
-<p> To fetch data by using NETPIE security mechanisms, please read <a href="\How_to_fetch">How_to_fetch</a> folder. </p>
+<p> To fetch data by using NETPIE security mechanisms, please read <a href="\How_to_fetch">How_to_fetch</a>. </p>
