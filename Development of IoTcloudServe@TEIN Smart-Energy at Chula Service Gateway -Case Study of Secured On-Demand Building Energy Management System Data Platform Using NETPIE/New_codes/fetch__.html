@@ -1,0 +1,114 @@
+<!--File: cubems_fetch1888.html
+
+Class: 2102541 IoT Fundamentals
+Department of Electrical Engineering
+Faculty of Engineering, Chulalongkorn University
+
+Code Purpose:
+
+To demo IEEE1888-fetch on CU-BEMS. The code is written to optimise its readability.
+To use it for a production scale, an additional work is required especially on uses
+of 'cursur' to flow-control IEEE1888-fetch in requested data batches of proper size.
+
+Ver 0.1 Written by: Dr C Aswakul (8 Feb 2019)
+        Updated by : SKK
+-->
+
+<html>
+
+<head>
+    <title>CU-BEMS Testbed, Department of Electrical Engineering,
+        Faculty of Engineering, Chulalogkorn University</title>
+
+    <script src="https://cdn.netpie.io/microgear.js"></script>
+
+    <script type="text/javascript">
+
+        function entered_data() {
+            var pointID1 = document.getElementById('PointID1').value.trim();
+            var pointID2 = document.getElementById('PointID2').value.trim();
+            var APPID = document.getElementById('AppID').value.trim(); // APPID is the NETPIE APPID you have created in your NETPIE account; ex. TestAPP
+            var KEY = document.getElementById('Key').value.trim(); // KEY is the "key" of key-secret pair generated in your NETPIE APPID; ex. cDfhyTVfIoDtRzB
+            var SECRET = document.getElementById('Secret').value.trim(); // SECRET is the "secret" of key-secret pair generated in your NETPIE APPID; ex. KuuCtU1bUPyLEfYP2tqQYsuWf
+            return [pointID1, pointID2, APPID, KEY, SECRET];
+        }
+
+        var keyIDSet;
+        var microgear_;
+        var req = setInterval(Fetching, 15000);
+
+        function IsConnected() {
+            keyIDSet = '';
+            var keyObject = entered_data().slice(0, 2);
+            var noA = keyObject.length;
+            for (var j = 0; j < noA; j++) {
+                if (keyObject[j].indexOf("bems") >= 0) {keyIDSet += '<key id="' + keyObject[j] + '" attrName="time" select="maximum"></key> '; }                
+            }
+            microgear_ = Microgear.create({ key : entered_data()[3], secret : entered_data()[4] });
+
+            microgear_.on('connected', function () {
+                window.alert("connected");
+                microgear_.subscribe("Your subscribed topic"); // "Your subscribed topic" looks like file directory pattern; ex. "myTopicName/returnedSensorData/Bedroom"
+            });
+
+
+            microgear_.on('message', function (topic, msg) {
+                document.getElementById("fetched_data").innerHTML += "\n" + msg + "\n"; 
+            });
+
+            microgear_.connect(entered_data()[2]);            
+        }
+
+        function Fetching(){
+            microgear_.publish("Your publish topic", keyIDSet); // "Your publish topic" looks like file directory pattern; ex. "myTopicName/myRequestSensor/Bedroom"
+        }
+
+        function DisConnected() {
+            clearInterval(req);
+            microgear_ = Microgear.create({ key : "", secret : "" });
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+
+    <h1> </h1>
+
+    <h2> CUBEMS Data Fetching </h2> <br>
+
+    <h4> To get the latest value, please follow these steps : </h4>
+    <h4> (1) Copy one of the following URLs and paste it on either 'Point ID #1' or 'Point ID #2' box. </h4> 
+    
+
+    <p> Your sensor URL 1 </p> 
+    <p> Your sensor URL 2 </p> 
+
+    <p> Your sensor URL 3 </p>
+    <p> Your sensor URL 4 </p> 
+
+    <p> Your sensor URL 5 </p>
+    <p> Your sensor URL 6 </p> 
+
+    <h4> (2) Copy one more URL and paste it on another 'Point ID' box (optional). </h4>
+    <h4> (3) Copy Your APPID, Your key, and Your secret. Paste them in 'APPID', 'KEY', and 'SECRET' boxes, respectively </h4>
+    <h4> (4) Click "Start FETCH" button to fetch data from CUBEMS. If you want to stop fetch, just click "Stop FETCH" botton. </h4> <br><br>
+
+
+    Point ID #1 : <input type="text" size=180 id="PointID1"> <br><br>
+    Point ID #2 : <input type="text" size=180 id="PointID2"> <br><br>
+    APP ID : <input type="text" size=180 id="AppID"> <br><br>
+    KEY : <input type="text" size=180 id="Key"> <br><br>
+    SECRET : <input type="text" size=180 id="Secret"> <br><br>
+    <input type="button" value="Start FETCH" onclick="IsConnected()" />
+    <input type="button" value="Stop FETCH" onclick="DisConnected()" />
+
+    <h2> Fetched result:</h2>
+    <textarea rows="10" cols="180" style="border:none;" id="fetched_data">
+	</textarea>
+
+</body>
+
+</html>
