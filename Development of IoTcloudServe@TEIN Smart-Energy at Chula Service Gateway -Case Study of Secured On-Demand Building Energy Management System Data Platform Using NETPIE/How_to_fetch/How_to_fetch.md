@@ -4,7 +4,7 @@
 (2) In NETPIE account, click "RESOURCES" > "APPLICATIONS". On "APPLICATION" tab, click "+" button to create APPID. <br>
 (3) In APPID, look at "APPLICATION KEY" tab. Click "+" button. At "--- select type ---", choose "Device Key" for Gateway__.js. <br>
 (4) Repeat 3rd step, but choose "Session Key" (instead of "Device Key") for fetch__.html. <br>
-(5) Install microgear by follow the guide in this link : https://drive.google.com/drive/folders/0B9jvOTVzGjXJVThqQ085dk9TLTQ <br>
+(5) Install microgear by follow the guide from this link : https://drive.google.com/drive/folders/0B9jvOTVzGjXJVThqQ085dk9TLTQ <br>
 (6) Copy the scripts from <a href="\New_codes">New_codes</a>. <br>
 (7) Copy Key and Secret of "Device Key" to "microgear.create({gearkey : "Your key", gearsecret : "Your secret"}" in the gateway script. <br>
 (8) Copy APPID name to "microgear_.connect("Your APPID")" in the gateway script. <br>
