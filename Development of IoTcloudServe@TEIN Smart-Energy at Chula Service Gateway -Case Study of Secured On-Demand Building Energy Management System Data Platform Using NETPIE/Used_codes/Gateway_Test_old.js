@@ -1,3 +1,5 @@
+//Ref : CPU usage script. [Online]. Available from : https://gist.github.com/bag-man/5570809
+
 var yourstorage = "Your storage URL";
 var microgear = require('microgear'); //request microgear module
 var microgear_ = microgear.create({key : "Your key", secret : "Your secret"}); // create microgear connection
