@@ -5,7 +5,8 @@
     "dependencies": {
         "@hapi/hapi": "^20.0.0",
         "@hapi/wreck": "^17.0.0",
-        "csv-parse": "^4.12.0"
+        "csv-parse": "^4.12.0",
+        "glob": "^7.1.6"
     },
     "devDependencies": {
         "@types/csv-parse": "^1.2.2"

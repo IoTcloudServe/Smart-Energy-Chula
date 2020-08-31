@@ -1,7 +1,8 @@
 FROM node:12-slim
+RUN npm install -g nodemon
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
-COPY . .
-CMD node index.js
 EXPOSE 8080
+COPY . .
+CMD [ "nodemon", "index.js" ]
