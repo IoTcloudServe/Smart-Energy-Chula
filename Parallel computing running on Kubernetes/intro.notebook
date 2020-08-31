@@ -1,0 +1,137 @@
+{
+    "version": 2,
+    "sheet": {
+        "id": "ce453830-e980-11ea-9607-e9a1a56b5678",
+        "language": "javascript",
+        "cells": [
+            {
+                "id": "54cc5f60-e98a-11ea-9607-e9a1a56b5678",
+                "cellType": "markdown",
+                "code": "# Cloud-Based Smart Energy Framework for Accelerated Data Analytics with Parallel Computing of Orchestrated Containers: Study Case of CU-BEMS\n\n#### The Simple, Data Wrangling, Data Analytics Framework for IoTCloudserve cluster\n\nBuild Powerful, Scalable parallel computing on simple way\n\n### CU-BEMS\n- [Introduction](#CU-BEMS)\n\n### Contents\n- [Design Concept]\n\n### Related libraries\n- [hapi - Web server - The Simple, Secure Framework Developers Trust](https://hapi.dev/)\n- [Data-Forge - JavaScript data wrangling, transformation and analysis toolkit](http://www.data-forge-js.com/)\n- [CSV-Parser](https://csv.js.org/parse/)\n\n\n### Resources and References\n- [Energy Research Data (Smart Grid Research Unit, Chulalongkorn University)](https://sgrudata.github.io/)\n- [CU-BEMS](https://www.bems.chula.ac.th/)\n- [Research - CU-BEMS, smart building electricity consumption and indoor environmental sensor datasets](https://www.nature.com/articles/s41597-020-00582-3)",
+                "lastEvaluationDate": "2020-08-29T07:21:03.288+07:00",
+                "output": [],
+                "errors": [],
+                "height": 565
+            },
+            {
+                "id": "509f24e0-e994-11ea-a5b3-790253b421c1",
+                "cellType": "markdown",
+                "code": "## CU-BEMS\n\n“Data-centric IoT-cloud service platform for smart communities” or IoTcloudServe@TEIN project has been established since 20 June 2018. The main purpose of this project is to integrate networked collaborative efforts of research and educational communities from developed-countries (Korea, Japan), from another developing country (Malaysia), and from a least developed country (Laos) `1`. In the project, we should like to achieve a framework design and a proof-ofconcept implementation for a data-centric IoT-cloud platform that can help enable IoT-domain service diversification. As an example for IoT-domain service demonstration, herein, the focus is concerned with the IoTcloudServe@TEIN’s SmartEnergy@Chula service based on the earlier completed socalled CU-BEMS (Chulalongkorn University’s Building Energy Management System) testbed.\n\nCU-BEMS, with the technical support of CU-BEMS IEEE1888 protocol server engine from the University of Tokyo `2` `3`, is readily available with more than 250 energy-related sensors `4` `5` and smart meters `6` that send the real-time energy and room ambient readings to CU-BEMS storage. With\nthe total data generation rate up to 800 data points in every second, the design of CU-BEMS is to monitor, control and analyze actual energy consumption profiles as well as relevant building’s ambient environments. The main goal is not only to show site energy management automation in engineering\ndepartment buildings but also to raise people awareness `7`; for example; a smart meter records energy usage of airconditioning systems inside a room and motion sensors in that area check the people movement. If no motion is detected in that room, then the CU-BEMS will alarm the waste energy\nusage of the air-conditioning system for energy saving. For information-pushing model design in CU-BEMS, the testbed provides Interactive Display as a Service (IDaaS) to notify to building users the real-time energy-related information to create awareness to staffs and students inside campus `8`.\n\n- `1` IoTcloudServe@TEIN, 2018, Facebook about, viewed August 2018, https://www.facebook.com/iotcloudserve/\n- `2` Ochiai, H. , Ishiyama, M., Momose, T., Fujiwara, N., Ito, K., Inagaki, H., Nakagawa, A. and Esaki, H. FIAP: Facility Information Access Protocol for Data-Centric Building Automation Systems. in IEEE INFOCOM M2MCN workshop, 2011\n- `3` IEEE1888-2011: IEEE Standard for Ubiquitous Green Community Control Network, 2011.\n- `4` Inthasut, T. and Aswakul, C. ZigBee Wireless Sensor Network with IEEE1888 Gateway for Building Energy Management System. Proceedings of ICEIC 2014, Kota Kinabalu, Malaysia : 2014.\n- `5` Inthasut, T. and Aswakul, C. Development and Reliability Testing of IEEE1888 Gateway for ZigBee Wireless Sensor Network in Chulalongkorn University’s Building Energy Management System. Proceedings of ISIPS 2014, Fukuoka, Japan, 13 November 2014. (Excellent Paper Award).\n- `6` Le, D. H. and Pora, W. Development of smart meter for building energy management system based on the IEEE 1888 standard with Wi-Fi communication. In Proceedings of ICEIC 2014, Kota Kinabalu, Malaysia, January 2014.\n- `7` Khawsa-ard, P. and Aswakul, C. Application of simple computer board game with gesture sensor input for increasing awareness in electrical energy consumption. ITC-CSCC 2014, 2014.\n- `8` Khawsa-ard, P. and Aswakul, C. IEEE1888 interactive display as a service (IDaaS): Example in building energy management system. COMPSAC 2015, 2015.",
+                "lastEvaluationDate": "2020-08-29T10:59:47.182+07:00",
+                "output": [],
+                "errors": [],
+                "height": 586
+            },
+            {
+                "id": "12466170-e996-11ea-a5b3-790253b421c1",
+                "cellType": "markdown",
+                "code": "## Acknowledgement\n\nCU-BEMS designed & built by Chula-EE core faculty team members and 30+ BEng/MEng students at Chula-EE since 2013 with various international collaborations and main financial support from Energy Conservation Promotion Fund (ENCON Fund), under the Energy Policy and Planning Office (EPPO), Ministry of Energy",
+                "lastEvaluationDate": "2020-08-29T10:59:47.182+07:00",
+                "output": [],
+                "errors": [],
+                "height": 121
+            },
+            {
+                "id": "3a75b420-e996-11ea-a5b3-790253b421c1",
+                "cellType": "markdown",
+                "code": "## CU-BEMS DESIGN PRINCIPLES\n\nProtocol/Information: Proprietary/Closed =>  `Open/Sharing`\n\nInformation Visualization: Pull Type => `Push Type`\n\nDemand Control: Centralized/Top Down => `Decentralized/Bottom Up (Self-Awareness/User Participation)`\n\nVendor Oriented (Dependency) => `User Oriented (Freedom)`",
+                "lastEvaluationDate": "2020-08-29T10:59:47.182+07:00",
+                "output": [],
+                "errors": [],
+                "height": 189
+            },
+            {
+                "id": "10dfe720-eb58-11ea-a788-fda70f16c531",
+                "cellType": "markdown",
+                "code": "## Architecture\n\n### Container\n\n1. Web server\n    - Container name:\n    -\n2. Static web hosting\n3. SFTP server\n\n### Storage (as a PV)\n\n1. smartenergystorage",
+                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "output": [],
+                "errors": [],
+                "height": 294
+            },
+            {
+                "id": "cac0e4f0-eb58-11ea-a788-fda70f16c531",
+                "cellType": "markdown",
+                "code": "",
+                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "output": [],
+                "errors": [],
+                "height": 48
+            },
+            {
+                "id": "6bea47a0-e99b-11ea-a5b3-790253b421c1",
+                "cellType": "markdown",
+                "code": "## Design Concept - Working with mountains of data",
+                "lastEvaluationDate": "2020-08-29T10:59:47.182+07:00",
+                "output": [],
+                "errors": [],
+                "height": 73
+            },
+            {
+                "id": "dcf69c80-e9c5-11ea-a788-fda70f16c531",
+                "cellType": "markdown",
+                "code": "![Design Concept Parallel](/Users/benz/Desktop/smartenergy/assets/images/designconceptparallel.png \"Design Concept\")\n\nRef: Data Wrangling with JavaScript Book by Ashley Davis",
+                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "output": [],
+                "errors": [],
+                "height": 586
+            },
+            {
+                "id": "8bfde130-e99d-11ea-a5b3-790253b421c1",
+                "cellType": "markdown",
+                "code": "![Design Concept](/Users/benz/Desktop/smartenergy/assets/images/designconcept.png \"Design Concept\")",
+                "lastEvaluationDate": "2020-08-29T10:59:47.182+07:00",
+                "output": [],
+                "errors": [],
+                "height": 551
+            },
+            {
+                "id": "3dbee250-e9af-11ea-a788-fda70f16c531",
+                "cellType": "markdown",
+                "code": "## index.js",
+                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "output": [],
+                "errors": [],
+                "height": 73
+            },
+            {
+                "id": "42a6fcd0-e9af-11ea-a788-fda70f16c531",
+                "cellType": "code",
+                "cellScope": "global",
+                "code": "const Hapi = require('@hapi/hapi');\nconst fs = require('fs');\n\nconst init = async () => {\n\n    const server = Hapi.server({\n        port: 8080\n    });\n\n    server.route([\n        {\n            method: 'GET',\n            path: '/listfiles',\n            handler: (request, h) => {\n                try {\n                    files = []\n                    fs.readdirSync('./csv/').forEach(file => files.push(file))\n                    return files\n                } catch (e) {\n                    return e.message\n                }\n\n            }\n        },\n        {\n            method: 'GET',\n            path: '/csv/{name}',\n            handler: async (request, h) => {\n                try {\n                    n = 0\n                    sum = 0\n                    stream = fs.createReadStream(__dirname + '/csv/' + request.params.name)\n\n                    return await new Promise((resolve, reject) => {\n                        parse = require('csv-parse')\n                        parser = parse({ delimiter: ',', columns: true })\n                        parser.on('readable', () => {\n                            while (record = parser.read()) {\n                                n++\n                                for (var name in record) {\n                                    if (name.indexOf(\"(kW)\") != -1) sum += parseFloat(record[name]) || 0;\n                                }\n                            }\n                        })\n                        parser.on('error', (error) => reject(error.message))\n                        parser.on('finish', () => {\n                            result = {\n                                n: n, sum: sum, id: id, name: request.params.name\n                            }\n                            resolve(result)\n                        })\n                        stream.pipe(parser)\n                    })\n                } catch (e) {\n                    return e.message\n                }\n            }\n        }\n    ]);\n\n    await server.start();\n    console.log('Server running on %s', server.info.uri);\n};\n\nprocess.on('unhandledRejection', (err) => {\n    console.log(err);\n    process.exit(1);\n});\n\ninit();",
+                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "output": [],
+                "errors": [],
+                "height": 1302
+            },
+            {
+                "id": "47972840-e99c-11ea-a5b3-790253b421c1",
+                "cellType": "markdown",
+                "code": "## local.js",
+                "lastEvaluationDate": "2020-08-29T10:59:47.182+07:00",
+                "output": [],
+                "errors": [],
+                "height": 73
+            },
+            {
+                "id": "67501420-e99d-11ea-a5b3-790253b421c1",
+                "cellType": "code",
+                "cellScope": "global",
+                "code": "const Wreck = require('@hapi/wreck');\n\nlet path = 'http://hapiserver.parallelcomputingdemo.202.28.193.102.xip.io';\n\nlet main = async () => {\n\n    // GET A LIST OF FILES\n\n    const files = await Wreck\n        .get(path + '/listfiles', { json: true })\n        .then((res) => res.payload)\n        .catch((e) => console.log(\"Error: \" + e.message))\n\n    const executejob = (file) => Wreck\n        .get(path + `/job/${file}`, { json: true })\n        .then((res) => res.payload)\n        .catch((e) => console.log(\"Error: \" + e.message))\n\n    let laps = []\n    const parallel = 1\n    const maxlap = 1\n    while (files.length > 0) laps.push(files.splice(0, parallel))\n    laps = laps.splice(0, maxlap)\n\n    let result = []\n\n    while (laps.length > 0) {\n        lap = laps.shift()\n        lapresult = await Promise.all(lap.map((file) => executejob(file)))\n        result = result.concat(lapresult);\n    }\n\n    let summarize = {\n        sum: 0,\n        n: 0\n    }\n\n    result.map((res) => {\n        if (res.sum != null) summarize.sum += res.sum\n        summarize.n += res.n\n    })\n\n    console.log(summarize);\n}\n\nmain();",
+                "lastEvaluationDate": "2020-08-29T10:37:46.281+07:00",
+                "output": [],
+                "errors": [],
+                "height": 965
+            },
+            {
+                "id": "70374020-e986-11ea-9607-e9a1a56b5678",
+                "cellType": "markdown",
+                "code": "![This is me!](/assets/images/profile.jpeg \"Kittipat Saengkaenpetch\")",
+                "lastEvaluationDate": "2020-08-29T07:21:03.288+07:00",
+                "output": [],
+                "errors": [],
+                "height": 48
+            }
+        ]
+    }
+}

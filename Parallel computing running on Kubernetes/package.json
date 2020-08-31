@@ -1,0 +1,13 @@
+{
+    "name": "Parallel_computing_running_on_Kubernetes",
+    "version": "1.0.0",
+    "description": "Data-Forge Notebook - A JavaScript notebook",
+    "dependencies": {
+        "@hapi/hapi": "^20.0.0",
+        "@hapi/wreck": "^17.0.0",
+        "csv-parse": "^4.12.0"
+    },
+    "devDependencies": {
+        "@types/csv-parse": "^1.2.2"
+    }
+}
