@@ -73,11 +73,11 @@ Vendor Oriented (Dependency) => `User Oriented (Freedom)`
 
 ## Design Concept - Working with mountains of data
 
-![Design Concept Parallel](assets/images/designconceptparallel.png "Design Concept")
+![Design Concept Parallel](/Users/benz/Desktop/smartenergy/assets/images/designconceptparallel.png "Design Concept")
 
 Ref: Data Wrangling with JavaScript Book by Ashley Davis
 
-![Design Concept](assets/images/designconcept.png "Design Concept")
+![Design Concept](/Users/benz/Desktop/smartenergy/assets/images/designconcept.png "Design Concept")
 
 ## index.js
 
@@ -207,7 +207,7 @@ let main = async () => {
 main();
 ```
 
-![This is me!](assets/images/profile.jpeg "Kittipat Saengkaenpetch")
+![This is me!](assets/images/myprofile.png "Kittipat Saengkaenpetch")
 
 
 

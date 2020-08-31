@@ -44,7 +44,7 @@
                 "id": "10dfe720-eb58-11ea-a788-fda70f16c531",
                 "cellType": "markdown",
                 "code": "## Architecture\n\n### Container\n\n1. Web server\n    - Container name:\n    -\n2. Static web hosting\n3. SFTP server\n\n### Storage (as a PV)\n\n1. smartenergystorage",
-                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "lastEvaluationDate": "2020-08-31T14:59:05.221+07:00",
                 "output": [],
                 "errors": [],
                 "height": 294
@@ -53,7 +53,7 @@
                 "id": "cac0e4f0-eb58-11ea-a788-fda70f16c531",
                 "cellType": "markdown",
                 "code": "",
-                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "lastEvaluationDate": "2020-08-31T14:59:05.221+07:00",
                 "output": [],
                 "errors": [],
                 "height": 48
@@ -71,10 +71,10 @@
                 "id": "dcf69c80-e9c5-11ea-a788-fda70f16c531",
                 "cellType": "markdown",
                 "code": "![Design Concept Parallel](/Users/benz/Desktop/smartenergy/assets/images/designconceptparallel.png \"Design Concept\")\n\nRef: Data Wrangling with JavaScript Book by Ashley Davis",
-                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "lastEvaluationDate": "2020-08-31T14:59:05.221+07:00",
                 "output": [],
                 "errors": [],
-                "height": 586
+                "height": 615
             },
             {
                 "id": "8bfde130-e99d-11ea-a5b3-790253b421c1",
@@ -89,7 +89,7 @@
                 "id": "3dbee250-e9af-11ea-a788-fda70f16c531",
                 "cellType": "markdown",
                 "code": "## index.js",
-                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "lastEvaluationDate": "2020-08-31T14:59:05.221+07:00",
                 "output": [],
                 "errors": [],
                 "height": 73
@@ -99,7 +99,7 @@
                 "cellType": "code",
                 "cellScope": "global",
                 "code": "const Hapi = require('@hapi/hapi');\nconst fs = require('fs');\n\nconst init = async () => {\n\n    const server = Hapi.server({\n        port: 8080\n    });\n\n    server.route([\n        {\n            method: 'GET',\n            path: '/listfiles',\n            handler: (request, h) => {\n                try {\n                    files = []\n                    fs.readdirSync('./csv/').forEach(file => files.push(file))\n                    return files\n                } catch (e) {\n                    return e.message\n                }\n\n            }\n        },\n        {\n            method: 'GET',\n            path: '/csv/{name}',\n            handler: async (request, h) => {\n                try {\n                    n = 0\n                    sum = 0\n                    stream = fs.createReadStream(__dirname + '/csv/' + request.params.name)\n\n                    return await new Promise((resolve, reject) => {\n                        parse = require('csv-parse')\n                        parser = parse({ delimiter: ',', columns: true })\n                        parser.on('readable', () => {\n                            while (record = parser.read()) {\n                                n++\n                                for (var name in record) {\n                                    if (name.indexOf(\"(kW)\") != -1) sum += parseFloat(record[name]) || 0;\n                                }\n                            }\n                        })\n                        parser.on('error', (error) => reject(error.message))\n                        parser.on('finish', () => {\n                            result = {\n                                n: n, sum: sum, id: id, name: request.params.name\n                            }\n                            resolve(result)\n                        })\n                        stream.pipe(parser)\n                    })\n                } catch (e) {\n                    return e.message\n                }\n            }\n        }\n    ]);\n\n    await server.start();\n    console.log('Server running on %s', server.info.uri);\n};\n\nprocess.on('unhandledRejection', (err) => {\n    console.log(err);\n    process.exit(1);\n});\n\ninit();",
-                "lastEvaluationDate": "2020-08-31T14:44:00.091+07:00",
+                "lastEvaluationDate": "2020-08-31T14:59:05.221+07:00",
                 "output": [],
                 "errors": [],
                 "height": 1302
@@ -126,7 +126,7 @@
             {
                 "id": "70374020-e986-11ea-9607-e9a1a56b5678",
                 "cellType": "markdown",
-                "code": "![This is me!](/assets/images/profile.jpeg \"Kittipat Saengkaenpetch\")",
+                "code": "![This is me!](/Users/benz/Desktop/smartenergy/assets/images/profile.png \"Kittipat Saengkaenpetch\")",
                 "lastEvaluationDate": "2020-08-29T07:21:03.288+07:00",
                 "output": [],
                 "errors": [],
