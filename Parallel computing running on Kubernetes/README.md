@@ -72,12 +72,15 @@ Vendor Oriented (Dependency) => `User Oriented (Freedom)`
 ![Design Concept Parallel](assets/images/zonearch.png "Design Concept")
 
 ## Design Concept - Working with mountains of data
+![Design Concept Parallel](assets/images/datawrangling.png "Design Concept")
 
 ![Design Concept Parallel](assets/images/designconceptparallel.png "Design Concept")
 
 Ref: Data Wrangling with JavaScript Book by Ashley Davis
 
 ![Design Concept](assets/images/designconcept.png "Design Concept")
+
+![Design Concept](assets/images/localjs.png "Design Concept")
 
 ## index.js
 
