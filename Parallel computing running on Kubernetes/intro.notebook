@@ -52,8 +52,17 @@
             {
                 "id": "cac0e4f0-eb58-11ea-a788-fda70f16c531",
                 "cellType": "markdown",
-                "code": "",
+                "code": "# Step to reproduce adding more module\n# Ways to do data wrangling\n# Increase the performance of Data Processing\n# Performance result",
                 "lastEvaluationDate": "2020-08-31T14:59:05.221+07:00",
+                "output": [],
+                "errors": [],
+                "height": 256
+            },
+            {
+                "id": "a713c350-ec3a-11ea-8d11-8786596f87b0",
+                "cellType": "markdown",
+                "code": "![Design Concept Parallel](/Users/benz/Desktop/smartenergy/assets/images/zonearch.png \"Design Concept\")",
+                "lastEvaluationDate": "2020-09-01T17:06:02.903+07:00",
                 "output": [],
                 "errors": [],
                 "height": 48
@@ -74,7 +83,7 @@
                 "lastEvaluationDate": "2020-08-31T14:59:05.221+07:00",
                 "output": [],
                 "errors": [],
-                "height": 68
+                "height": 615
             },
             {
                 "id": "8bfde130-e99d-11ea-a5b3-790253b421c1",

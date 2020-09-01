@@ -69,7 +69,7 @@ Vendor Oriented (Dependency) => `User Oriented (Freedom)`
 
 1. smartenergystorage
 
-
+![Design Concept Parallel](assets/images/zonearch.png "Design Concept")
 
 ## Design Concept - Working with mountains of data
 
