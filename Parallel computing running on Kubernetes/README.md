@@ -206,8 +206,9 @@ let main = async () => {
 
 main();
 ```
+![This is me!](assets/images/result.png "Kittipat Saengkaenpetch")
 
-![This is me!](assets/images/myprofile.png "Kittipat Saengkaenpetch")
+![This is me!](assets/images/myprofile.jpeg "Kittipat Saengkaenpetch")
 
 
 
