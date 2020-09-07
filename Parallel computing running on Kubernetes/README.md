@@ -49,12 +49,10 @@ Demand Control: Centralized/Top Down => `Decentralized/Bottom Up (Self-Awareness
 
 Vendor Oriented (Dependency) => `User Oriented (Freedom)`
 
-## Design Concept - Working with mountains of data
-![Design Concept Parallel](assets/images/datawrangling.png "Design Concept")
+## Design Concept
 
-![Design Concept Parallel](assets/images/designconceptparallel.png "Design Concept")
+![Design Concept](assets/images/designconcept2.png "Design Concept")
 
-Ref: Data Wrangling with JavaScript Book by Ashley Davis
 
 ![Design Concept](assets/images/designconcept.png "Design Concept")
 
