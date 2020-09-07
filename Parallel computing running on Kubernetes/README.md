@@ -1,4 +1,3 @@
-This markdown was exported from [Data-Forge Notebook](http://www.data-forge-notebook.com)
 
 # Cloud-Based Smart Energy Framework for Accelerated Data Analytics with Parallel Computing of Orchestrated Containers: Study Case of CU-BEMS
 
@@ -9,13 +8,8 @@ Build Powerful, Scalable parallel computing on simple way
 ### CU-BEMS
 - [Introduction](#CU-BEMS)
 
-### Contents
-- [Design Concept]
-
-### Related libraries
-- [hapi - Web server - The Simple, Secure Framework Developers Trust](https://hapi.dev/)
-- [Data-Forge - JavaScript data wrangling, transformation and analysis toolkit](http://www.data-forge-js.com/)
-- [CSV-Parser](https://csv.js.org/parse/)
+### Slide
+- [Click here](https://docs.google.com/presentation/d/1yy1qVb0cMnAoSeVzh2FzEMdeQIlxewvcOxJQ7VJUWvU/edit?usp=sharing)
 
 
 ### Resources and References
@@ -55,22 +49,6 @@ Demand Control: Centralized/Top Down => `Decentralized/Bottom Up (Self-Awareness
 
 Vendor Oriented (Dependency) => `User Oriented (Freedom)`
 
-## Architecture
-
-### Container
-
-1. Web server
-    - Container name:
-    -
-2. Static web hosting
-3. SFTP server
-
-### Storage (as a PV)
-
-1. smartenergystorage
-
-![Design Concept Parallel](assets/images/zonearch.png "Design Concept")
-
 ## Design Concept - Working with mountains of data
 ![Design Concept Parallel](assets/images/datawrangling.png "Design Concept")
 
@@ -79,8 +57,6 @@ Vendor Oriented (Dependency) => `User Oriented (Freedom)`
 Ref: Data Wrangling with JavaScript Book by Ashley Davis
 
 ![Design Concept](assets/images/designconcept.png "Design Concept")
-
-![Design Concept](assets/images/localjs.png "Design Concept")
 
 ## index.js
 
@@ -94,6 +70,10 @@ const init = async () => {
     const server = Hapi.server({
         port: 8080
     });
+
+    const Glob = require('glob');
+
+    await server.register(Glob.sync("./modules/**/*.js").map((js) => require(js)));
 
     server.route([
         {
@@ -126,14 +106,14 @@ const init = async () => {
                             while (record = parser.read()) {
                                 n++
                                 for (var name in record) {
-                                    if (name.indexOf("(kW)") != -1) sum += parseFloat(record[name]) || 0;
+                                    if (name.indexOf("VALUE") != -1) sum += parseFloat(record[name]) || 0;
                                 }
                             }
                         })
                         parser.on('error', (error) => reject(error.message))
                         parser.on('finish', () => {
                             result = {
-                                n: n, sum: sum, id: id, name: request.params.name
+                                n: n, sum: sum, name: request.params.name
                             }
                             resolve(result)
                         })
@@ -162,46 +142,110 @@ init();
 
 
 ```javascript
+
+const listfile = [
+    ["0", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "aircon_3ph1", "monitor", "energy_r"],
+    ["1", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "aircon_3ph1", "monitor", "energy_s"],
+    ["2", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "aircon_3ph1", "monitor", "energy_t"],
+    ["3", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "light1", "monitor", "energy"],
+    ["4", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "outlet1", "monitor", "energy"],
+    ["5", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "sensor1", "monitor", "humidity"],
+    ["6", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "sensor1", "monitor", "illuminance"],
+    ["7", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "sensor1", "monitor", "pir"],
+    ["8", "eng4", "fl13", "north", "lab_tsrl_dsprl_emrl", "z1", "sensor1", "monitor", "temperature"],
+    // Point id data...
+}
+
+let zonepirlist = []
+let energylist = []
+let zoneenergy = {}
+
+for (const each of listfile) {
+    if (each[each.length - 1] == "pir") {
+        const zone = each[1]+"-"+each[2]+"-"+each[3]+"-"+each[4]+"-"+each[5];
+        zonepirlist.push(zone)
+        zoneenergy[zone] = {
+            pir: each[0],
+            energy: []
+        }
+    }
+}
+
+for (const each of listfile) {
+    if (each[each.length - 1] == "energy") {
+        const zone = each[1]+"-"+each[2]+"-"+each[3]+"-"+each[4]+"-"+each[5];
+        if (zonepirlist.includes(zone)) {
+            energylist.push(each)
+            if (each[each.length - 1] == "energy" && each[6].indexOf("aircon") != -1)
+                zoneenergy[zone]["energy"].push(each[0])
+        }
+    }
+}
+
+let jobs = []
+
+for (const eachzone in zoneenergy) {
+    for (const pointid of zoneenergy[eachzone]["energy"]) {
+        const job = {
+            pirpointid: zoneenergy[eachzone]["pir"],
+            energypointid: pointid
+        }
+        jobs.push(job)
+    }
+}
+
 const Wreck = require('@hapi/wreck');
 
-let path = 'http://hapiserver.parallelcomputingdemo.202.28.193.102.xip.io';
+let path = 'http://newwebserver.parallelcomputingdemo.161.200.90.106.xip.io';
+// let path = 'http://localhost:8080'
 
 let main = async () => {
 
-    // GET A LIST OF FILES
-
-    const files = await Wreck
-        .get(path + '/listfiles', { json: true })
-        .then((res) => res.payload)
-        .catch((e) => console.log("Error: " + e.message))
-
-    const executejob = (file) => Wreck
-        .get(path + `/job/${file}`, { json: true })
-        .then((res) => res.payload)
-        .catch((e) => console.log("Error: " + e.message))
-
     let laps = []
-    const parallel = 1
-    const maxlap = 1
-    while (files.length > 0) laps.push(files.splice(0, parallel))
+    const parallel = 25
+    const maxlap = 4
+    console.log(jobs.length);
+    while (jobs.length > 0) laps.push(jobs.splice(0, parallel))
     laps = laps.splice(0, maxlap)
 
     let result = []
 
+    const executejob = (pir, energy) => {
+        return Wreck
+            .get(path + `/csv/${pir}.csv/${energy}.csv`, { json: true })
+            .then((res) => res.payload)
+            .then((res) => {
+                return {
+                    "allenergy": parseFloat(res.allenergy),
+                    "wastedenergy": parseFloat(res.wastedenergy),
+                    "usefulenergy": parseFloat(res.usefulenergy)
+                }
+            })
+            .catch((e) => console.log("Error: " + e.message))
+    }
+
+    n = 0
+
     while (laps.length > 0) {
+        n++
         lap = laps.shift()
-        lapresult = await Promise.all(lap.map((file) => executejob(file)))
+        lapresult = await Promise.all(lap.map((job) => executejob(job.pirpointid, job.energypointid)))
         result = result.concat(lapresult);
+        console.log(n);
+        console.log(lapresult);
     }
 
     let summarize = {
-        sum: 0,
-        n: 0
+        allenergy: 0,
+        wastedenergy: 0,
+        usefulenergy: 0
     }
 
+
     result.map((res) => {
-        if (res.sum != null) summarize.sum += res.sum
-        summarize.n += res.n
+        summarize.allenergy += res.allenergy
+        summarize.wastedenergy += res.wastedenergy
+        summarize.usefulenergy += res.usefulenergy
     })
 
     console.log(summarize);
@@ -209,10 +253,3 @@ let main = async () => {
 
 main();
 ```
-![This is me!](assets/images/result.png "Kittipat Saengkaenpetch")
-
-![This is me!](assets/images/myprofile.jpeg "Kittipat Saengkaenpetch")
-
-
-
-This markdown was exported from [Data-Forge Notebook](http://www.data-forge-notebook.com)

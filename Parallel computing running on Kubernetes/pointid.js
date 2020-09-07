@@ -605,9 +605,79 @@ for (const each of listfile) {
         const zone = each[1]+"-"+each[2]+"-"+each[3]+"-"+each[4]+"-"+each[5];
         if (zonepirlist.includes(zone)) {
             energylist.push(each)
-            zoneenergy[zone]["energy"].push(each[0]+"-"+zone+"-"+"energy")
+            if (each[each.length - 1] == "energy" && each[6].indexOf("aircon") != -1)
+                zoneenergy[zone]["energy"].push(each[0])
         }
     }
 }
 
-console.log(zoneenergy)
+let jobs = []
+
+for (const eachzone in zoneenergy) {
+    for (const pointid of zoneenergy[eachzone]["energy"]) {
+        const job = {
+            pirpointid: zoneenergy[eachzone]["pir"],
+            energypointid: pointid
+        }
+        jobs.push(job)
+    }
+}
+
+const Wreck = require('@hapi/wreck');
+
+let path = 'http://newwebserver.parallelcomputingdemo.161.200.90.106.xip.io';
+// let path = 'http://localhost:8080'
+
+let main = async () => {
+
+    let laps = []
+    const parallel = 25
+    const maxlap = 4
+    console.log(jobs.length);
+    while (jobs.length > 0) laps.push(jobs.splice(0, parallel))
+    laps = laps.splice(0, maxlap)
+
+    let result = []
+
+    const executejob = (pir, energy) => {
+        return Wreck
+            .get(path + `/csv/${pir}.csv/${energy}.csv`, { json: true })
+            .then((res) => res.payload)
+            .then((res) => {
+                return {
+                    "allenergy": parseFloat(res.allenergy),
+                    "wastedenergy": parseFloat(res.wastedenergy),
+                    "usefulenergy": parseFloat(res.usefulenergy)
+                }
+            })
+            .catch((e) => console.log("Error: " + e.message))
+    }
+
+    n = 0
+
+    while (laps.length > 0) {
+        n++
+        lap = laps.shift()
+        lapresult = await Promise.all(lap.map((job) => executejob(job.pirpointid, job.energypointid)))
+        result = result.concat(lapresult);
+        console.log(n);
+        console.log(lapresult);
+    }
+
+    let summarize = {
+        allenergy: 0,
+        wastedenergy: 0,
+        usefulenergy: 0
+    }
+
+
+    result.map((res) => {
+        summarize.allenergy += res.allenergy
+        summarize.wastedenergy += res.wastedenergy
+        summarize.usefulenergy += res.usefulenergy
+    })
+
+    console.log(summarize);
+}
+
+main();
