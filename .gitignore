@@ -1,0 +1,6 @@
+node_modules/
+.idea/*
+!.idea/watcherTasks.xml
+.DS_Store
+package-lock.json
+Parallel computing running on Kubernetes/csv/*
