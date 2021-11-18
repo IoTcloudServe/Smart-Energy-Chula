@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-energy-chula
+spec:
+  selector:
+    matchLabels:
+      app: smart-energy-chula
+  replicas: 0
+  template:
+    metadata:
+      labels:
+        app: smart-energy-chula
+    spec:
+      containers:
+        - name: smart-energy-chula
+          image: registry.gitlab.com/iotcloudserve/smartenergy
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: gitlab

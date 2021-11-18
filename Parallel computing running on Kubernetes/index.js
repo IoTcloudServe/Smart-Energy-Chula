@@ -1,6 +1,8 @@
 const Hapi = require('@hapi/hapi');
 const fs = require('fs');
 
+const path = require('path');
+
 const init = async () => {
 
     const server = Hapi.server({
@@ -28,6 +30,27 @@ const init = async () => {
         },
         {
             method: 'GET',
+            path: '/listfilesAndSize',
+            handler: (request, h) => {
+                try {
+                    files = []
+                    
+                    fs.readdirSync('./csv/').forEach(file => files.push(file));
+                    const response = [];
+                    for (let file of files) {
+                        const extension = path.extname(file);
+                        const fileSizeInBytes = fs.statSync('./csv/'+file).size;
+                        response.push({ name: file, extension, fileSizeInBytes });
+                    }
+                    return response;
+                } catch (e) {
+                    return e.message
+                }
+
+            }
+        },
+        {
+            method: 'GET',
             path: '/csv/{name}',
             handler: async (request, h) => {
                 try {
@@ -35,9 +58,10 @@ const init = async () => {
                     sum = 0
                     stream = fs.createReadStream(__dirname + '/csv/' + request.params.name)
 
-                    return await new Promise((resolve, reject) => {
+                    return new Promise((resolve, reject) => {
                         parse = require('csv-parse')
                         parser = parse({ delimiter: ',', columns: true })
+                        const starttime = new Date();
                         parser.on('readable', () => {
                             while (record = parser.read()) {
                                 n++
@@ -48,8 +72,9 @@ const init = async () => {
                         })
                         parser.on('error', (error) => reject(error.message))
                         parser.on('finish', () => {
+                            const endtime = new Date();
                             result = {
-                                n: n, sum: sum, name: request.params.name
+                                n: n, sum: sum, name: request.params.name, runtime: (endtime.getTime() - starttime.getTime())
                             }
                             resolve(result)
                         })
