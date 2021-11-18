@@ -590,7 +590,7 @@ let energylist = []
 let zoneenergy = {}
 
 for (const each of listfile) {
-    if (each[each.length - 1] == "pir") {
+    if (each[each.length - 1] == "pir" || each[each.length - 1] == "PIR") {
         const zone = each[1]+"-"+each[2]+"-"+each[3]+"-"+each[4]+"-"+each[5];
         zonepirlist.push(zone)
         zoneenergy[zone] = {
@@ -601,11 +601,13 @@ for (const each of listfile) {
 }
 
 for (const each of listfile) {
-    if (each[each.length - 1] == "energy") {
+    if (each[each.length - 1] == "energy" || each[each.length - 1] == "energy_r" ||
+        each[each.length - 1] == "energy_s" || each[each.length - 1] == "energy_t") {
         const zone = each[1]+"-"+each[2]+"-"+each[3]+"-"+each[4]+"-"+each[5];
         if (zonepirlist.includes(zone)) {
             energylist.push(each)
-            if (each[each.length - 1] == "energy" && each[6].indexOf("aircon") != -1)
+            if (each[each.length - 1] == "energy" || each[each.length - 1] == "energy_r" ||
+                each[each.length - 1] == "energy_s" || each[each.length - 1] == "energy_t")
                 zoneenergy[zone]["energy"].push(each[0])
         }
     }
@@ -623,60 +625,89 @@ for (const eachzone in zoneenergy) {
     }
 }
 
+let path = 'http://smartenergy.p-8bcr8-pipeline.202.28.193.100.nip.io';
+
+const executejob = (pir, energy) => {
+    console.log(path + `/csv/${pir}.csv/${energy}.csv`)
+    return Wreck
+        .get(path + `/csv/${pir}.csv/${energy}.csv`, { json: true })
+        .then((res) => res.payload)
+        .then((res) => {
+            for (datetime in res.insight.wastedenergy){
+                res.insight.wastedenergy[datetime] = parseFloat(res.insight.wastedenergy[datetime]);
+            }
+            for (datetime in res.insight.usefulenergy){
+                res.insight.usefulenergy[datetime] = parseFloat(res.insight.usefulenergy[datetime]);
+            }
+            return {
+                "allenergy": parseFloat(res.allenergy),
+                "wastedenergy": parseFloat(res.wastedenergy),
+                "usefulenergy": parseFloat(res.usefulenergy),
+                "insight": {
+                    "wastedenergy": res.insight.wastedenergy,
+                    "usefulenergy": res.insight.usefulenergy
+                }
+            }
+        })
+        .catch((e) => console.log("Error: " + e.message))
+}
+
 const Wreck = require('@hapi/wreck');
 
-let path = 'http://newwebserver.parallelcomputingdemo.161.200.90.106.xip.io';
-// let path = 'http://localhost:8080'
-
 let main = async () => {
-
-    let laps = []
-    const parallel = 25
-    const maxlap = 4
-    console.log(jobs.length);
-    while (jobs.length > 0) laps.push(jobs.splice(0, parallel))
-    laps = laps.splice(0, maxlap)
-
-    let result = []
-
-    const executejob = (pir, energy) => {
-        return Wreck
-            .get(path + `/csv/${pir}.csv/${energy}.csv`, { json: true })
-            .then((res) => res.payload)
-            .then((res) => {
-                return {
-                    "allenergy": parseFloat(res.allenergy),
-                    "wastedenergy": parseFloat(res.wastedenergy),
-                    "usefulenergy": parseFloat(res.usefulenergy)
-                }
-            })
-            .catch((e) => console.log("Error: " + e.message))
-    }
-
-    n = 0
-
-    while (laps.length > 0) {
-        n++
-        lap = laps.shift()
-        lapresult = await Promise.all(lap.map((job) => executejob(job.pirpointid, job.energypointid)))
-        result = result.concat(lapresult);
-        console.log(n);
-        console.log(lapresult);
-    }
 
     let summarize = {
         allenergy: 0,
         wastedenergy: 0,
-        usefulenergy: 0
+        usefulenergy: 0,
+        insight: {
+            usefulenergy: {},
+            wastedenergy: {}
+        }
     }
 
+    let laps = []
+    const parallel = 64
+    const maxlap = 3
+
+    console.log(`Files: ${jobs.length}, Parallel: ${parallel}, Max-Lap: ${maxlap}`);
+
+    while (jobs.length > 0) laps.push(jobs.splice(0, parallel))
+    laps = laps.splice(0, maxlap)
+
+    let result = [];
+
+    const timestart = new Date();
+    let startlap, endlap;
+
+    while (laps.length > 0) {
+        lap = laps.shift()
+        startlap = new Date();
+        console.log(lap)
+        lapresult = await Promise.all(lap.map((file) => executejob(file.pirpointid, file.energypointid)))
+        endlap = new Date();
+        console.log("time consumed for lap: "+(endlap.getTime() - startlap.getTime()));
+        result = result.concat(lapresult);
+    }
+
+    const timeend = new Date();
 
     result.map((res) => {
         summarize.allenergy += res.allenergy
         summarize.wastedenergy += res.wastedenergy
         summarize.usefulenergy += res.usefulenergy
+
+        for (datetime in res.insight.wastedenergy){
+            if (!(datetime in summarize.insight.wastedenergy)) summarize.insight.wastedenergy[datetime] = 0;
+            summarize.insight.wastedenergy[datetime] += parseFloat(res.insight.wastedenergy[datetime]);
+        }
+        for (datetime in res.insight.usefulenergy){
+            if (!(datetime in summarize.insight.usefulenergy)) summarize.insight.usefulenergy[datetime] = 0;
+            summarize.insight.usefulenergy[datetime] += parseFloat(res.insight.usefulenergy[datetime]);
+        }
     })
 
+    console.log("time consumed: "+(timeend.getTime() - timestart.getTime()));
     console.log(summarize);
 }
 
